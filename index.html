@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jessica Raiani Bolos — 2º Festival de Fatias</title>
+
+  <style>
+    /* ===== Base ===== */
+    * { box-sizing: border-box; }
+
+    /* Botões respondem ao toque simples no iOS (sem engolir o clique com zoom de toque-duplo) */
+    button {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
+    }
+
+    body {
+      margin: 0;
+      background: #f5e7ec;
+      font-family: Arial, sans-serif;
+      color: #3b202b;
+    }
+
+    .app {
+      max-width: 720px;
+      margin: auto;
+      background: #fff;
+      min-height: 100vh;
+    }
+
+    /* ===== Cabeçalho ===== */
+    header {
+      padding: 16px;
+      background: linear-gradient(135deg, #f8c8d7, #fff2f6);
+    }
+    header img {
+      width: 100%;
+      border-radius: 18px;
+    }
+
+    .top { padding: 18px 20px 6px; }
+    h1 { margin: 8px 0; font-size: 26px; color: #a70d4d; }
+    .sub { color: #765663; }
+
+    /* ===== Informações do evento ===== */
+    .info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      padding: 12px 20px;
+    }
+    .info div {
+      background: #fff2f6;
+      border: 1px solid #f0c6d5;
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .info b {
+      display: block;
+      color: #b00e52;
+      margin-bottom: 4px;
+    }
+
+    /* ===== Seções e sabores ===== */
+    section { padding: 8px 20px; }
+    h2 { font-size: 19px; margin: 12px 0; }
+
+    .flavor {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #efd8e0;
+      border-radius: 15px;
+      padding: 10px;
+      margin: 8px 0;
+    }
+    .cake {
+      width: 48px;
+      height: 48px;
+      background: #fff0f5;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 25px;
+    }
+    .fi { flex: 1; line-height: 1.25; }
+    .fi b { display: block; font-size: 14px; }
+    .fi small { color: #b00e52; font-weight: bold; }
+
+    .qty {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .qty button {
+      border: 0;
+      background: #bd1458;
+      color: #fff;
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      font-size: 21px;
+    }
+    .qty strong {
+      min-width: 18px;
+      text-align: center;
+    }
+
+    /* ===== Formulário ===== */
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      margin: 10px 0 5px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #e2c8d2;
+      border-radius: 11px;
+      font-size: 15px;
+    }
+    textarea { min-height: 65px; }
+
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .choices label {
+      border: 1px solid #edc8d5;
+      padding: 12px;
+      border-radius: 11px;
+      margin: 0;
+    }
+    .choices input { width: auto; }
+
+    .note { font-size: 12px; color: #765663; }
+    .form { padding-bottom: 100px; }
+
+    /* ===== Barra fixa de total ===== */
+    .bottom {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(720px, 100%);
+      background: #fff;
+      border-top: 1px solid #e3ccd5;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .total { flex: 1; font-size: 13px; }
+    .total b {
+      display: block;
+      color: #ad0d4e;
+      font-size: 20px;
+    }
+    .send {
+      border: 0;
+      background: #25d366;
+      color: #fff;
+      border-radius: 13px;
+      padding: 14px 16px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    @media (max-width: 450px) {
+      .choices { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <!-- Cabeçalho -->
+    <header>
+      <img src="569889.webp" alt="Cardápio 2º Festival de Fatias" onerror="this.style.display='none'">
+    </header>
+
+    <div class="top">
+      <h1>🍰 2º Festival de Fatias</h1>
+      <div class="sub">Monte seu pedido como em um app de delivery e finalize pelo WhatsApp.</div>
+    </div>
+
+    <!-- Informações do evento -->
+    <div class="info">
+      <div><b>📅 Domingo 23/08</b>Entregas a partir das 11:00</div>
+      <div><b>💰 Cada fatia</b>R$ 18,00</div>
+      <div><b>🛵 Delivery</b>Taxa R$ 4,00</div>
+      <div><b>📍 Retirada</b>José Antônio de Andrade, 726, Jd. Beatriz</div>
+    </div>
+
+    <!-- Lista de sabores -->
+    <section>
+      <h2>🍰 Escolha suas fatias</h2>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Pudim</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(0,-1)">−</button><strong id="q0">0</strong><button onclick="changeQty(0,1)">+</button></div>
+      </div>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Matilda</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(1,-1)">−</button><strong id="q1">0</strong><button onclick="changeQty(1,1)">+</button></div>
+      </div>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Ninho com abacaxi e doce de leite</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(2,-1)">−</button><strong id="q2">0</strong><button onclick="changeQty(2,1)">+</button></div>
+      </div>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Palha italiana</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(3,-1)">−</button><strong id="q3">0</strong><button onclick="changeQty(3,1)">+</button></div>
+      </div>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Ferrero Rocher</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(4,-1)">−</button><strong id="q4">0</strong><button onclick="changeQty(4,1)">+</button></div>
+      </div>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Brigadeiro de Nutella com Ninho</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(5,-1)">−</button><strong id="q5">0</strong><button onclick="changeQty(5,1)">+</button></div>
+      </div>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Ninho duplo com morango</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(6,-1)">−</button><strong id="q6">0</strong><button onclick="changeQty(6,1)">+</button></div>
+      </div>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Floresta Negra</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(7,-1)">−</button><strong id="q7">0</strong><button onclick="changeQty(7,1)">+</button></div>
+      </div>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Red Velvet</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(8,-1)">−</button><strong id="q8">0</strong><button onclick="changeQty(8,1)">+</button></div>
+      </div>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Prestígio</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(9,-1)">−</button><strong id="q9">0</strong><button onclick="changeQty(9,1)">+</button></div>
+      </div>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Olho de sogra</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(10,-1)">−</button><strong id="q10">0</strong><button onclick="changeQty(10,1)">+</button></div>
+      </div>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Maracujá trufado</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(11,-1)">−</button><strong id="q11">0</strong><button onclick="changeQty(11,1)">+</button></div>
+      </div>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Kit Kat</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(12,-1)">−</button><strong id="q12">0</strong><button onclick="changeQty(12,1)">+</button></div>
+      </div>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Mousse de Ninho com geléia e doce de leite</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(13,-1)">−</button><strong id="q13">0</strong><button onclick="changeQty(13,1)">+</button></div>
+      </div>
+
+      <div class="flavor">
+        <div class="cake">🍰</div>
+        <div class="fi"><b>Kinder Bueno</b><small>R$ 18,00</small></div>
+        <div class="qty"><button onclick="changeQty(14,-1)">−</button><strong id="q14">0</strong><button onclick="changeQty(14,1)">+</button></div>
+      </div>
+    </section>
+
+    <!-- Dados do cliente -->
+    <section class="form">
+      <h2>📝 Seus dados</h2>
+
+      <label>Nome</label>
+      <input id="name" placeholder="Seu nome">
+
+      <label>Telefone</label>
+      <input id="phone" placeholder="Seu telefone">
+
+      <label>Como vai receber?</label>
+      <div class="choices">
+        <label><input type="radio" name="m" value="delivery" checked onchange="update()"> 🛵 Delivery + R$ 4,00</label>
+        <label><input type="radio" name="m" value="pickup" onchange="update()"> 📍 Retirada</label>
+      </div>
+
+      <div id="addr">
+        <label>Endereço</label>
+        <textarea id="address" placeholder="Rua, número, bairro e complemento"></textarea>
+      </div>
+
+      <label>Observações</label>
+      <textarea id="obs" placeholder="Opcional"></textarea>
+
+      <p class="note">⚠️ Somente delivery ou retirada. Não haverá atendimento presencial.</p>
+    </section>
+  </div>
+
+  <!-- Barra fixa com total -->
+  <div class="bottom">
+    <div class="total">
+      <span id="count">0</span> fatia(s)
+      <b id="total">R$ 0,00</b>
+    </div>
+    <button class="send" onclick="sendOrder()">Finalizar pedido 💚</button>
+  </div>
+
+  <script>
+    // ===== Configuração =====
+    const PRICE = 18;                 // preço por fatia (R$)
+    const DELIVERY_FEE = 4;           // taxa de entrega (R$)
+    const WHATSAPP = "5517996010156";
+    const PICKUP_ADDRESS = "José Antônio de Andrade, 726, Jd. Beatriz";
+
+    const FLAVORS = [
+      "Pudim",
+      "Matilda",
+      "Ninho com abacaxi e doce de leite",
+      "Palha italiana",
+      "Ferrero Rocher",
+      "Brigadeiro de Nutella com Ninho",
+      "Ninho duplo com morango",
+      "Floresta Negra",
+      "Red Velvet",
+      "Prestígio",
+      "Olho de sogra",
+      "Maracujá trufado",
+      "Kit Kat",
+      "Mousse de Ninho com geléia e doce de leite",
+      "Kinder Bueno",
+    ];
+
+    // Quantidade escolhida de cada sabor (mesmo índice de FLAVORS)
+    const qty = Array(FLAVORS.length).fill(0);
+
+    // ===== Helpers =====
+    const totalSlices = () => qty.reduce((a, b) => a + b, 0);
+    const isDelivery = () => document.querySelector('input[name=m]:checked').value === "delivery";
+    const formatBRL = (value) =>
+      value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+    // ===== Interações =====
+    function changeQty(i, delta) {
+      qty[i] = Math.max(0, qty[i] + delta);
+      document.getElementById("q" + i).textContent = qty[i];
+      update();
+    }
+
+    function update() {
+      const count = totalSlices();
+      const fee = count && isDelivery() ? DELIVERY_FEE : 0;
+
+      document.getElementById("count").textContent = count;
+      document.getElementById("total").textContent = formatBRL(count * PRICE + fee);
+      document.getElementById("addr").style.display = isDelivery() ? "block" : "none";
+    }
+
+    // ===== Envio do pedido pelo WhatsApp =====
+    function sendOrder() {
+      const count = totalSlices();
+      if (!count) {
+        alert("Escolha pelo menos uma fatia.");
+        return;
+      }
+
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const addr = document.getElementById("address").value.trim();
+      const obs = document.getElementById("obs").value.trim();
+      const delivery = isDelivery();
+
+      if (!name || !phone) {
+        alert("Preencha nome e telefone.");
+        return;
+      }
+      if (delivery && !addr) {
+        alert("Informe o endereço para entrega.");
+        return;
+      }
+
+      const lines = qty
+        .map((x, i) => (x ? `• ${FLAVORS[i]} — ${x} fatia(s)` : null))
+        .filter(Boolean)
+        .join("\n");
+
+      const subtotal = count * PRICE;
+      const total = subtotal + (delivery ? DELIVERY_FEE : 0);
+      const brl = (v) => v.toFixed(2).replace(".", ",");
+
+      const text =
+        "Olá, Jessica! 💕 Quero fazer meu pedido do 2º Festival de Fatias.\n\n" +
+        `👤 Nome: ${name}\n` +
+        `📱 Telefone: ${phone}\n\n` +
+        "🍰 PEDIDO:\n" + lines + "\n\n" +
+        `💰 Subtotal: R$ ${brl(subtotal)}\n` +
+        (delivery ? "🛵 Taxa de entrega: R$ 4,00" : "📍 Retirada: sem taxa") + "\n" +
+        `💳 TOTAL: R$ ${brl(total)}\n\n` +
+        (delivery ? `📍 Endereço: ${addr}` : `📍 Retirada: ${PICKUP_ADDRESS}`) +
+        (obs ? `\n📝 Observação: ${obs}` : "");
+
+      window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(text), "_blank");
+    }
+
+    // ===== Inicialização =====
+    update();
+  </script>
+</body>
+</html>
