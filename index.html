@@ -363,30 +363,42 @@
 
     <!-- DADOS -->
     <section class="form">
-      <h2 class="section-title">Seus dados</h2>
+  <h2 class="section-title">Seus dados</h2>
 
-      <label>Nome</label>
-      <input id="name" placeholder="Seu nome">
+  <label>Nome</label>
+  <input id="name" placeholder="Seu nome">
 
-      <label>Telefone</label>
-      <input id="phone" inputmode="tel" placeholder="Seu telefone / WhatsApp">
+  <label>Telefone</label>
+  <input id="phone" inputmode="tel" placeholder="Seu telefone / WhatsApp">
 
-      <label>Como vai receber?</label>
-      <div class="choices">
-        <label><input type="radio" name="m" value="delivery" checked onchange="update()"> 🛵 Delivery +R$4</label>
-        <label><input type="radio" name="m" value="pickup" onchange="update()"> 📍 Retirada</label>
-      </div>
+  <label>Como vai receber?</label>
+  <div class="choices">
+    <label><input type="radio" name="m" value="delivery" checked onchange="update()"> 🛵 Delivery +R$4</label>
+    <label><input type="radio" name="m" value="pickup" onchange="update()"> 📍 Retirada</label>
+  </div>
 
-      <div id="addr">
-        <label>Endereço</label>
-        <textarea id="address" placeholder="Rua, número, bairro e complemento"></textarea>
-      </div>
+  <div id="addr">
+    <label>Endereço</label>
+    <textarea id="address" placeholder="Rua, número, bairro e complemento"></textarea>
+  </div>
 
-      <label>Observações</label>
-      <textarea id="obs" placeholder="Opcional — alguma preferência?"></textarea>
+  <label>Forma de pagamento</label>
+  <div class="choices">
+    <label><input type="radio" name="pay" value="Pix" checked onchange="update()"> 💠 Pix</label>
+    <label><input type="radio" name="pay" value="Cartão" onchange="update()"> 💳 Cartão</label>
+    <label><input type="radio" name="pay" value="Dinheiro" onchange="update()"> 💵 Dinheiro</label>
+  </div>
 
-      <p class="note">⚠️ Somente delivery ou retirada. Não haverá atendimento presencial.</p>
-    </section>
+  <div id="trocoWrap" style="display:none">
+    <label>Precisa de troco? Para quanto?</label>
+    <input id="troco" inputmode="decimal" placeholder="Ex: 50,00 (deixe vazio se não precisar)">
+  </div>
+
+  <label>Observações</label>
+  <textarea id="obs" placeholder="Opcional — alguma preferência?"></textarea>
+
+  <p class="note">⚠️ Somente delivery ou retirada. Não haverá atendimento presencial.</p>
+</section>
   </div>
 
   <!-- BARRA FIXA -->
@@ -434,61 +446,66 @@
     }
 
     function update() {
-      const count = totalSlices();
-      const fee = count && isDelivery() ? DELIVERY_FEE : 0;
+  const count = totalSlices();
+  const fee = count && isDelivery() ? DELIVERY_FEE : 0;
+  document.getElementById("count").textContent = count;
+  document.getElementById("total").textContent = formatBRL(count * PRICE + fee);
+  document.getElementById("addr").style.display = isDelivery() ? "block" : "none";
+  document.getElementById("sendBtn").classList.toggle("asleep", count === 0);
 
-      document.getElementById("count").textContent = count;
-      document.getElementById("total").textContent = formatBRL(count * PRICE + fee);
-      document.getElementById("addr").style.display = isDelivery() ? "block" : "none";
+  const pay = document.querySelector('input[name=pay]:checked').value;
+  document.getElementById("trocoWrap").style.display = pay === "Dinheiro" ? "block" : "none";
 
-      document.getElementById("sendBtn").classList.toggle("asleep", count === 0);
+  const badge = document.getElementById("badge");
+  badge.textContent = count;
+  badge.classList.toggle("show", count > 0);
+  badge.classList.remove("pop"); void badge.offsetWidth; badge.classList.add("pop");
+  const wrap = document.getElementById("totalWrap");
+  wrap.classList.remove("bump"); void wrap.offsetWidth; wrap.classList.add("bump");
+}
 
-      const badge = document.getElementById("badge");
-      badge.textContent = count;
-      badge.classList.toggle("show", count > 0);
-      badge.classList.remove("pop"); void badge.offsetWidth; badge.classList.add("pop");
-
-      const wrap = document.getElementById("totalWrap");
-      wrap.classList.remove("bump"); void wrap.offsetWidth; wrap.classList.add("bump");
-    }
 
     // ===== Envio do pedido pelo WhatsApp =====
     function sendOrder() {
-      const count = totalSlices();
-      if (!count) { alert("Escolha pelo menos uma fatia."); return; }
+  const count = totalSlices();
+  if (!count) { alert("Escolha pelo menos uma fatia."); return; }
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const addr = document.getElementById("address").value.trim();
+  const obs = document.getElementById("obs").value.trim();
+  const delivery = isDelivery();
 
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const addr = document.getElementById("address").value.trim();
-      const obs = document.getElementById("obs").value.trim();
-      const delivery = isDelivery();
+  const pay = document.querySelector('input[name=pay]:checked').value;
+  const troco = document.getElementById("troco").value.trim();
 
-      if (!name || !phone) { alert("Preencha nome e telefone."); return; }
-      if (delivery && !addr) { alert("Informe o endereço para entrega."); return; }
+  if (!name || !phone) { alert("Preencha nome e telefone."); return; }
+  if (delivery && !addr) { alert("Informe o endereço para entrega."); return; }
 
-      const lines = qty
-        .map((x, i) => (x ? `• ${FLAVORS[i]} — ${x} fatia(s)` : null))
-        .filter(Boolean)
-        .join("\n");
+  const lines = qty
+    .map((x, i) => (x ? `• ${FLAVORS[i]} — ${x} fatia(s)` : null))
+    .filter(Boolean)
+    .join("\n");
 
-      const subtotal = count * PRICE;
-      const total = subtotal + (delivery ? DELIVERY_FEE : 0);
-      const brl = (v) => v.toFixed(2).replace(".", ",");
+  const subtotal = count * PRICE;
+  const total = subtotal + (delivery ? DELIVERY_FEE : 0);
+  const brl = (v) => v.toFixed(2).replace(".", ",");
 
-      const text =
-        "Olá, Jessica! 💕 Quero fazer meu pedido do Festival de Fatias.\n\n" +
-        `👤 Nome: ${name}\n` +
-        `📱 Telefone: ${phone}\n\n` +
-        "🍰 PEDIDO:\n" + lines + "\n\n" +
-        `💰 Subtotal: R$ ${brl(subtotal)}\n` +
-        (delivery ? "🛵 Taxa de entrega: R$ 4,00" : "📍 Retirada: sem taxa") + "\n" +
-        `💳 TOTAL: R$ ${brl(total)}\n\n` +
-        (delivery ? `📍 Endereço: ${addr}` : `📍 Retirada: ${PICKUP_ADDRESS}`) +
-        (obs ? `\n📝 Observação: ${obs}` : "");
+  const text =
+    "Olá, Jessica! 💕 Quero fazer meu pedido do Festival de Fatias.\n\n" +
+    `👤 Nome: ${name}\n` +
+    `📱 Telefone: ${phone}\n\n` +
+    "🍰 PEDIDO:\n" + lines + "\n\n" +
+    `💰 Subtotal: R$ ${brl(subtotal)}\n` +
+    (delivery ? "🛵 Taxa de entrega: R$ 4,00" : "📍 Retirada: sem taxa") + "\n" +
+    `💳 TOTAL: R$ ${brl(total)}\n` +
+    `💵 Pagamento: ${pay}` +
+    (pay === "Dinheiro" && troco ? ` (troco para R$ ${troco})` : "") + "\n\n" +
+    (delivery ? `📍 Endereço: ${addr}` : `📍 Retirada: ${PICKUP_ADDRESS}`) +
+    (obs ? `\n📝 Observação: ${obs}` : "");
 
-      buzz([15, 40, 15]);  
-      window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(text), "_blank");
-    }
+  buzz([15, 40, 15]);
+  window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(text), "_blank");
+}
 
     // ===== Inicialização =====
     update();
