@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jessica Raiani Bolos — Festival de Fatias</title>
 
-  <!-- Fontes: Fraunces (display, ar artesanal) + DM Sans (corpo limpo) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -59,7 +58,7 @@
         linear-gradient(160deg, #fbd9e6 0%, #fdeef4 42%, var(--paper) 100%);
       overflow: hidden;
     }
-    .hero::after { /* raspa decorativa dourada */
+    .hero::after { 
       content: "";
       position: absolute; inset: 0;
       background: radial-gradient(300px 120px at 82% 8%, rgba(200,138,60,.18), transparent 70%);
@@ -207,7 +206,7 @@
       padding: 10px 12px; margin-top: 16px;
     }
 
-    /* ===== BARRA INFERIOR (glass) ===== */
+    /* ===== BARRA INFERIOR  ===== */
     .bottom {
       position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
       width: min(640px, 100%);
@@ -237,7 +236,6 @@
       transition: transform .12s, box-shadow .2s, background .3s, filter .3s;
     }
     .send:active { transform: translateY(1px) scale(.98); }
-    /* estado "adormecido" quando nada foi selecionado */
     .send.asleep {
       background: linear-gradient(135deg, #e2d3d9, #d8c6ce);
       color: #9c8189; box-shadow: none; filter: saturate(.6);
@@ -270,7 +268,6 @@
       <div class="brand-name">Domingo, 23 de agosto</div>
       <h1>Festival<br>de <em>Fatias</em></h1>
       <p class="sub">Monte seu pedido como em um app de delivery e finalize pelo WhatsApp. 💌</p>
-      <!-- Banner: fatia de bolo em vetor + nome da marca (sem imagem externa) -->
       <div class="banner" role="img" aria-label="Fatia de bolo — Jessica Raiani Bolos">
         <svg viewBox="0 0 640 240" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
           <defs>
@@ -290,13 +287,13 @@
           <ellipse cx="176" cy="188" rx="120" ry="14" fill="#8f1247" opacity=".12"/>
           <ellipse cx="176" cy="184" rx="108" ry="11" fill="#ffffff"/>
 
-          <!-- camadas da fatia (recortadas no triângulo) -->
+          <!-- camadas da fatia -->
           <g clip-path="url(#slice)">
             <rect x="78" y="66" width="190" height="120" fill="url(#sponge)"/>
-            <rect x="78" y="96"  width="190" height="10" fill="#fffaf2"/>            <!-- creme -->
-            <rect x="78" y="106" width="190" height="20" fill="url(#berry)"/>          <!-- morango -->
-            <rect x="78" y="132" width="190" height="10" fill="#fffaf2"/>            <!-- creme -->
-            <rect x="78" y="142" width="190" height="16" fill="url(#dulce)"/>         <!-- doce de leite -->
+            <rect x="78" y="96"  width="190" height="10" fill="#fffaf2"/>            
+            <rect x="78" y="106" width="190" height="20" fill="url(#berry)"/>          
+            <rect x="78" y="132" width="190" height="10" fill="#fffaf2"/>            
+            <rect x="78" y="142" width="190" height="16" fill="url(#dulce)"/>         
           </g>
 
           <!-- borda de cobertura (esquerda + topo) -->
@@ -417,23 +414,21 @@
 
     const qty = Array(FLAVORS.length).fill(0);
 
-    // ===== Helpers =====
     const totalSlices = () => qty.reduce((a, b) => a + b, 0);
     const isDelivery = () => document.querySelector('input[name=m]:checked').value === "delivery";
     const formatBRL = (v) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-    // Vibração curta no celular (feedback tátil de app nativo)
+    // Vibração curta no celular
     const buzz = (ms) => { if (navigator.vibrate) navigator.vibrate(ms); };
 
     // ===== Interações =====
     function changeQty(i, delta) {
       const antes = qty[i];
       qty[i] = Math.max(0, qty[i] + delta);
-      if (qty[i] === antes) return;            // já estava em 0, não faz nada
-      buzz(delta > 0 ? 12 : 8);                // toque tátil
+      if (qty[i] === antes) return;           
+      buzz(delta > 0 ? 12 : 8);                
 
       document.getElementById("q" + i).textContent = qty[i];
-      // acende/apaga o card selecionado
       document.getElementById("q" + i).closest(".flavor").classList.toggle("on", qty[i] > 0);
       update();
     }
@@ -446,16 +441,13 @@
       document.getElementById("total").textContent = formatBRL(count * PRICE + fee);
       document.getElementById("addr").style.display = isDelivery() ? "block" : "none";
 
-      // botão "acorda" quando há fatias / adormece quando vazio
       document.getElementById("sendBtn").classList.toggle("asleep", count === 0);
 
-      // badge com a quantidade
       const badge = document.getElementById("badge");
       badge.textContent = count;
       badge.classList.toggle("show", count > 0);
       badge.classList.remove("pop"); void badge.offsetWidth; badge.classList.add("pop");
 
-      // micro-animação de "pulo" no total
       const wrap = document.getElementById("totalWrap");
       wrap.classList.remove("bump"); void wrap.offsetWidth; wrap.classList.add("bump");
     }
@@ -494,7 +486,7 @@
         (delivery ? `📍 Endereço: ${addr}` : `📍 Retirada: ${PICKUP_ADDRESS}`) +
         (obs ? `\n📝 Observação: ${obs}` : "");
 
-      buzz([15, 40, 15]);   // vibração de confirmação
+      buzz([15, 40, 15]);  
       window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(text), "_blank");
     }
 
