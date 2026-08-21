@@ -220,14 +220,34 @@
     @keyframes bump { 0%{transform:scale(1)} 40%{transform:scale(1.14)} 100%{transform:scale(1)} }
 
     .send {
+      position: relative;
       border: 0; background: linear-gradient(135deg, #2fca6a, #1fae57);
       color: #fff; border-radius: 15px; padding: 15px 20px;
       font-weight: 700; font-size: 15px; letter-spacing: .01em;
       display: inline-flex; align-items: center; gap: 8px;
       box-shadow: 0 12px 22px -12px rgba(31,174,87,.7);
-      transition: transform .12s, box-shadow .2s;
+      transition: transform .12s, box-shadow .2s, background .3s, filter .3s;
     }
     .send:active { transform: translateY(1px) scale(.98); }
+    /* estado "adormecido" quando nada foi selecionado */
+    .send.asleep {
+      background: linear-gradient(135deg, #e2d3d9, #d8c6ce);
+      color: #9c8189; box-shadow: none; filter: saturate(.6);
+    }
+    /* badge com a quantidade de fatias */
+    .send .badge {
+      position: absolute; top: -9px; right: -9px;
+      min-width: 24px; height: 24px; padding: 0 6px;
+      background: #fff; color: var(--rose);
+      border: 2px solid var(--rose); border-radius: 999px;
+      font-size: 12px; font-weight: 700; line-height: 1;
+      display: grid; place-items: center;
+      transform: scale(0); transition: transform .25s cubic-bezier(.34,1.56,.64,1);
+      box-shadow: 0 4px 10px -4px rgba(184,28,91,.6);
+    }
+    .send .badge.show { transform: scale(1); }
+    .send .badge.pop { animation: badgePop .3s ease; }
+    @keyframes badgePop { 0%{transform:scale(1)} 45%{transform:scale(1.35)} 100%{transform:scale(1)} }
 
     @media (max-width: 430px) { .choices { grid-template-columns: 1fr; } }
   </style>
@@ -308,7 +328,7 @@
       <span id="count">0</span> fatia(s) selecionada(s)
       <b id="total">R$ 0,00</b>
     </div>
-    <button class="send" onclick="sendOrder()">Finalizar 💚</button>
+    <button class="send asleep" id="sendBtn" onclick="sendOrder()">Finalizar 💚<span class="badge" id="badge">0</span></button>
   </div>
 
   <script>
@@ -332,9 +352,16 @@
     const isDelivery = () => document.querySelector('input[name=m]:checked').value === "delivery";
     const formatBRL = (v) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
+    // Vibração curta no celular (feedback tátil de app nativo)
+    const buzz = (ms) => { if (navigator.vibrate) navigator.vibrate(ms); };
+
     // ===== Interações =====
     function changeQty(i, delta) {
+      const antes = qty[i];
       qty[i] = Math.max(0, qty[i] + delta);
+      if (qty[i] === antes) return;            // já estava em 0, não faz nada
+      buzz(delta > 0 ? 12 : 8);                // toque tátil
+
       document.getElementById("q" + i).textContent = qty[i];
       // acende/apaga o card selecionado
       document.getElementById("q" + i).closest(".flavor").classList.toggle("on", qty[i] > 0);
@@ -348,6 +375,15 @@
       document.getElementById("count").textContent = count;
       document.getElementById("total").textContent = formatBRL(count * PRICE + fee);
       document.getElementById("addr").style.display = isDelivery() ? "block" : "none";
+
+      // botão "acorda" quando há fatias / adormece quando vazio
+      document.getElementById("sendBtn").classList.toggle("asleep", count === 0);
+
+      // badge com a quantidade
+      const badge = document.getElementById("badge");
+      badge.textContent = count;
+      badge.classList.toggle("show", count > 0);
+      badge.classList.remove("pop"); void badge.offsetWidth; badge.classList.add("pop");
 
       // micro-animação de "pulo" no total
       const wrap = document.getElementById("totalWrap");
@@ -388,6 +424,7 @@
         (delivery ? `📍 Endereço: ${addr}` : `📍 Retirada: ${PICKUP_ADDRESS}`) +
         (obs ? `\n📝 Observação: ${obs}` : "");
 
+      buzz([15, 40, 15]);   // vibração de confirmação
       window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(text), "_blank");
     }
 
