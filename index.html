@@ -94,6 +94,14 @@
       width: 100%; margin-top: 18px; border-radius: 16px; display: block;
       box-shadow: 0 20px 40px -22px rgba(143,18,71,.5);
     }
+    .banner {
+      margin-top: 16px; border-radius: 20px;
+      background: radial-gradient(120% 130% at 50% 0%, #fff 0%, #ffeef5 60%, #ffe2ee 100%);
+      border: 1px solid var(--line);
+      box-shadow: 0 20px 40px -26px rgba(143,18,71,.45), inset 0 1px 0 #fff;
+      padding: 6px 10px 0; overflow: hidden;
+    }
+    .banner svg { width: 100%; height: auto; display: block; }
 
     /* ===== INFO ===== */
     .info {
@@ -262,7 +270,70 @@
       <div class="brand-name">Domingo, 23 de agosto</div>
       <h1>Festival<br>de <em>Fatias</em></h1>
       <p class="sub">Monte seu pedido como em um app de delivery e finalize pelo WhatsApp. 💌</p>
-      <img src="569889.webp" alt="Cardápio Festival de Fatias" onerror="this.style.display='none'">
+      <!-- Banner ilustrado em vetor (sem depender de imagem externa) -->
+      <div class="banner" role="img" aria-label="Ilustração de um bolo de festa">
+        <svg viewBox="0 0 640 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="spongeA" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#f5cf98"/><stop offset="1" stop-color="#e8b46e"/>
+            </linearGradient>
+            <linearGradient id="spongeB" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#f7d6a6"/><stop offset="1" stop-color="#edbe7f"/>
+            </linearGradient>
+            <linearGradient id="cream" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#fffaf3"/><stop offset="1" stop-color="#ffe9d6"/>
+            </linearGradient>
+          </defs>
+
+          <!-- sombra do prato -->
+          <ellipse cx="320" cy="192" rx="168" ry="18" fill="#8f1247" opacity=".12"/>
+          <!-- prato -->
+          <ellipse cx="320" cy="186" rx="150" ry="15" fill="#ffffff"/>
+          <ellipse cx="320" cy="184" rx="150" ry="14" fill="none" stroke="#f0c6d5" stroke-width="2"/>
+
+          <!-- tier de baixo -->
+          <rect x="238" y="120" width="164" height="62" rx="14" fill="url(#spongeA)"/>
+          <!-- recheio rosa -->
+          <rect x="238" y="140" width="164" height="16" fill="#f6bcd2"/>
+          <!-- cobertura creme com pingos -->
+          <path d="M232 122 q14 16 28 0 q14 16 28 0 q14 16 28 0 q14 16 28 0 q14 16 28 0 q14 16 28 0 l0 -14 q0 -8 -8 -8 l-152 0 q-8 0 -8 8 z"
+                fill="url(#cream)"/>
+
+          <!-- tier de cima -->
+          <rect x="266" y="78" width="108" height="46" rx="12" fill="url(#spongeB)"/>
+          <path d="M262 80 q13 14 26 0 q13 14 26 0 q13 14 26 0 q13 14 26 0 l0 -12 q0 -7 -7 -7 l-96 0 q-7 0 -7 7 z"
+                fill="url(#cream)"/>
+
+          <!-- vela + chama -->
+          <rect x="317" y="52" width="6" height="22" rx="3" fill="#b81c5b"/>
+          <rect x="317" y="52" width="6" height="6" fill="#8f1247"/>
+          <path d="M320 40 q7 6 0 13 q-7 -7 0 -13 z" fill="#ffb84d"/>
+          <circle cx="320" cy="49" r="2.4" fill="#fff2c2"/>
+
+          <!-- cerejas -->
+          <circle cx="292" cy="74" r="6" fill="#c0316b"/>
+          <circle cx="348" cy="74" r="6" fill="#c0316b"/>
+
+          <!-- confeitos (sprinkles) -->
+          <g stroke-width="4" stroke-linecap="round">
+            <line x1="258" y1="150" x2="266" y2="146" stroke="#ffffff"/>
+            <line x1="300" y1="162" x2="308" y2="158" stroke="#c88a3c"/>
+            <line x1="344" y1="150" x2="352" y2="146" stroke="#ffffff"/>
+            <line x1="376" y1="160" x2="384" y2="156" stroke="#b81c5b"/>
+          </g>
+
+          <!-- brilhos decorativos -->
+          <g fill="#c88a3c">
+            <path d="M150 70 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" opacity=".7"/>
+            <path d="M492 96 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 z" opacity=".6"/>
+          </g>
+          <g fill="#b81c5b" opacity=".5">
+            <circle cx="176" cy="150" r="4"/>
+            <circle cx="470" cy="150" r="4"/>
+            <circle cx="120" cy="120" r="3"/>
+          </g>
+        </svg>
+      </div>
     </header>
 
     <!-- INFO -->
