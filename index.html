@@ -5,307 +5,288 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jessica Raiani Bolos — 2º Festival de Fatias</title>
 
+  <!-- Fontes: Fraunces (display, ar artesanal) + DM Sans (corpo limpo) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    /* ===== Base ===== */
+    :root {
+      --cream:      #fbf4ec;   /* fundo quente */
+      --paper:      #fffaf5;   /* cartões */
+      --ink:        #43242f;   /* texto principal */
+      --ink-soft:   #8a6b74;   /* texto secundário */
+      --rose:       #b81c5b;   /* rosa marca */
+      --rose-deep:  #8f1247;   /* rosa escuro */
+      --rose-tint:  #fbe7ef;   /* rosa clarinho (fundos) */
+      --caramel:    #c88a3c;   /* acento caramelo/dourado */
+      --line:       #efd9e0;   /* bordas */
+      --shadow:     18px 24px 60px -30px rgba(143, 18, 71, .35);
+      --radius:     20px;
+    }
+
     * { box-sizing: border-box; }
 
-    /* Botões respondem ao toque simples no iOS (sem engolir o clique com zoom de toque-duplo) */
-    button {
-      touch-action: manipulation;
-      -webkit-tap-highlight-color: transparent;
-      cursor: pointer;
-    }
+    button { font-family: inherit; touch-action: manipulation; -webkit-tap-highlight-color: transparent; cursor: pointer; }
 
     body {
       margin: 0;
-      background: #f5e7ec;
-      font-family: Arial, sans-serif;
-      color: #3b202b;
+      color: var(--ink);
+      font-family: "DM Sans", -apple-system, Arial, sans-serif;
+      background-color: var(--cream);
+      /* textura sutil de grão + brilho quente, dá profundidade sem pesar */
+      background-image:
+        radial-gradient(1200px 600px at 100% -10%, #ffe6f0 0%, transparent 55%),
+        radial-gradient(900px 500px at -10% 10%, #fff2e2 0%, transparent 50%);
+      background-attachment: fixed;
     }
 
     .app {
-      max-width: 720px;
+      max-width: 640px;
       margin: auto;
-      background: #fff;
+      background: var(--paper);
       min-height: 100vh;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
     }
 
-    /* ===== Cabeçalho ===== */
-    header {
-      padding: 16px;
-      background: linear-gradient(135deg, #f8c8d7, #fff2f6);
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      padding: 26px 24px 30px;
+      background:
+        linear-gradient(160deg, #fbd9e6 0%, #fdeef4 42%, var(--paper) 100%);
+      overflow: hidden;
     }
-    header img {
-      width: 100%;
-      border-radius: 18px;
+    .hero::after { /* raspa decorativa dourada */
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(300px 120px at 82% 8%, rgba(200,138,60,.18), transparent 70%);
+      pointer-events: none;
+    }
+    .brand-tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--rose-deep);
+      background: rgba(255,255,255,.7);
+      border: 1px solid var(--line);
+      padding: 6px 12px; border-radius: 999px;
+      backdrop-filter: blur(4px);
+    }
+    .brand-name {
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 600; font-size: 15px; letter-spacing: .02em;
+      color: var(--rose-deep);
+      margin: 18px 0 2px;
+    }
+    .hero h1 {
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(30px, 8vw, 42px);
+      line-height: 1.05;
+      margin: 2px 0 10px;
+      color: var(--ink);
+    }
+    .hero h1 em { color: var(--rose); font-style: italic; }
+    .hero .sub { color: var(--ink-soft); font-size: 14px; max-width: 34ch; line-height: 1.45; }
+    .hero img {
+      width: 100%; margin-top: 18px; border-radius: 16px; display: block;
+      box-shadow: 0 20px 40px -22px rgba(143,18,71,.5);
     }
 
-    .top { padding: 18px 20px 6px; }
-    h1 { margin: 8px 0; font-size: 26px; color: #a70d4d; }
-    .sub { color: #765663; }
-
-    /* ===== Informações do evento ===== */
+    /* ===== INFO ===== */
     .info {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 9px;
-      padding: 12px 20px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+      padding: 18px 20px 4px;
     }
     .info div {
-      background: #fff2f6;
-      border: 1px solid #f0c6d5;
-      border-radius: 14px;
-      padding: 12px;
-      font-size: 13px;
-      line-height: 1.35;
+      background: var(--rose-tint);
+      border: 1px solid var(--line);
+      border-radius: 16px; padding: 13px 14px;
+      font-size: 13px; line-height: 1.35; color: var(--ink);
     }
-    .info b {
-      display: block;
-      color: #b00e52;
-      margin-bottom: 4px;
+    .info b { display: block; color: var(--rose-deep); font-weight: 600; margin-bottom: 3px; font-size: 12.5px; }
+
+    /* ===== SEÇÕES ===== */
+    section { padding: 10px 20px; }
+    .section-title {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 22px; font-weight: 600; margin: 20px 0 12px;
+      display: flex; align-items: center; gap: 10px;
     }
+    .section-title::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--line), transparent); }
 
-    /* ===== Seções e sabores ===== */
-    section { padding: 8px 20px; }
-    h2 { font-size: 19px; margin: 12px 0; }
-
+    /* ===== CARDS DE SABOR ===== */
     .flavor {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border: 1px solid #efd8e0;
-      border-radius: 15px;
-      padding: 10px;
-      margin: 8px 0;
+      display: flex; align-items: center; gap: 13px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px 13px; margin: 10px 0;
+      transition: border-color .25s, box-shadow .25s, background .25s, transform .12s;
+      /* reveal ao carregar */
+      opacity: 0; transform: translateY(10px);
+      animation: rise .5s ease forwards;
     }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+
+    .flavor.on {
+      border-color: var(--rose);
+      background: linear-gradient(180deg, #fff, var(--rose-tint));
+      box-shadow: 0 12px 26px -18px rgba(184,28,91,.6);
+    }
+
     .cake {
-      width: 48px;
-      height: 48px;
-      background: #fff0f5;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      font-size: 25px;
+      width: 52px; height: 52px; flex: none;
+      background: radial-gradient(circle at 30% 25%, #fff, #ffe9f1);
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      display: grid; place-items: center; font-size: 26px;
+      transition: transform .25s;
     }
-    .fi { flex: 1; line-height: 1.25; }
-    .fi b { display: block; font-size: 14px; }
-    .fi small { color: #b00e52; font-weight: bold; }
+    .flavor.on .cake { transform: scale(1.06) rotate(-3deg); border-color: #f4b7cd; }
 
-    .qty {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .fi { flex: 1; min-width: 0; }
+    .fi b { display: block; font-size: 15px; font-weight: 600; line-height: 1.2; }
+    .fi .price {
+      display: inline-block; margin-top: 5px;
+      font-size: 12px; font-weight: 600; color: var(--rose-deep);
+      background: var(--rose-tint); border: 1px solid var(--line);
+      padding: 2px 9px; border-radius: 999px;
     }
+
+    .qty { display: flex; align-items: center; gap: 6px; flex: none; }
     .qty button {
-      border: 0;
-      background: #bd1458;
-      color: #fff;
-      border-radius: 50%;
-      width: 34px;
-      height: 34px;
-      font-size: 21px;
+      border: 0; width: 34px; height: 34px; border-radius: 50%;
+      background: #fff; color: var(--rose); border: 1.5px solid var(--rose);
+      font-size: 20px; line-height: 1; display: grid; place-items: center;
+      transition: transform .12s, background .18s, color .18s;
     }
-    .qty strong {
-      min-width: 18px;
-      text-align: center;
-    }
+    .qty button.plus { background: var(--rose); color: #fff; border-color: var(--rose); }
+    .qty button:active { transform: scale(.86); }
+    .qty strong { min-width: 22px; text-align: center; font-size: 16px; font-variant-numeric: tabular-nums; }
 
-    /* ===== Formulário ===== */
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: bold;
-      margin: 10px 0 5px;
-    }
+    /* ===== FORMULÁRIO ===== */
+    .form { padding-bottom: 120px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin: 14px 0 6px; color: var(--ink); }
     input, textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #e2c8d2;
-      border-radius: 11px;
-      font-size: 15px;
+      width: 100%; padding: 13px 14px;
+      border: 1px solid var(--line); border-radius: 14px;
+      font-size: 15px; font-family: inherit; color: var(--ink);
+      background: #fff; transition: border-color .2s, box-shadow .2s;
     }
-    textarea { min-height: 65px; }
+    input:focus, textarea:focus {
+      outline: none; border-color: var(--rose);
+      box-shadow: 0 0 0 4px rgba(184,28,91,.12);
+    }
+    textarea { min-height: 68px; resize: vertical; }
 
-    .choices {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
+    .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .choices label {
-      border: 1px solid #edc8d5;
-      padding: 12px;
-      border-radius: 11px;
-      margin: 0;
+      position: relative; margin: 0; cursor: pointer;
+      border: 1.5px solid var(--line); border-radius: 14px;
+      padding: 14px 12px; font-weight: 600; font-size: 14px;
+      display: flex; align-items: center; gap: 8px;
+      transition: border-color .2s, background .2s;
     }
-    .choices input { width: auto; }
+    .choices label:has(input:checked) { border-color: var(--rose); background: var(--rose-tint); }
+    .choices input { accent-color: var(--rose); width: 18px; height: 18px; }
 
-    .note { font-size: 12px; color: #765663; }
-    .form { padding-bottom: 100px; }
+    .note {
+      font-size: 12px; color: var(--ink-soft); line-height: 1.5;
+      background: #fff6ea; border: 1px solid #f0dcc2; border-radius: 12px;
+      padding: 10px 12px; margin-top: 16px;
+    }
 
-    /* ===== Barra fixa de total ===== */
+    /* ===== BARRA INFERIOR (glass) ===== */
     .bottom {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(720px, 100%);
-      background: #fff;
-      border-top: 1px solid #e3ccd5;
-      padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: min(640px, 100%);
+      background: rgba(255,250,245,.82);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-top: 1px solid var(--line);
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      display: flex; align-items: center; gap: 14px;
+      box-shadow: 0 -14px 34px -26px rgba(143,18,71,.5);
     }
-    .total { flex: 1; font-size: 13px; }
+    .total { flex: 1; font-size: 12px; color: var(--ink-soft); }
     .total b {
-      display: block;
-      color: #ad0d4e;
-      font-size: 20px;
+      display: block; font-family: "Fraunces", Georgia, serif;
+      color: var(--rose-deep); font-size: 24px; font-weight: 600;
+      transition: transform .18s;
     }
-    .send {
-      border: 0;
-      background: #25d366;
-      color: #fff;
-      border-radius: 13px;
-      padding: 14px 16px;
-      font-weight: bold;
-      font-size: 14px;
-    }
+    .total.bump b { animation: bump .3s ease; }
+    @keyframes bump { 0%{transform:scale(1)} 40%{transform:scale(1.14)} 100%{transform:scale(1)} }
 
-    @media (max-width: 450px) {
-      .choices { grid-template-columns: 1fr; }
+    .send {
+      border: 0; background: linear-gradient(135deg, #2fca6a, #1fae57);
+      color: #fff; border-radius: 15px; padding: 15px 20px;
+      font-weight: 700; font-size: 15px; letter-spacing: .01em;
+      display: inline-flex; align-items: center; gap: 8px;
+      box-shadow: 0 12px 22px -12px rgba(31,174,87,.7);
+      transition: transform .12s, box-shadow .2s;
     }
+    .send:active { transform: translateY(1px) scale(.98); }
+
+    @media (max-width: 430px) { .choices { grid-template-columns: 1fr; } }
   </style>
 </head>
 
 <body>
   <div class="app">
-    <!-- Cabeçalho -->
-    <header>
+
+    <!-- HERO -->
+    <header class="hero">
+      <span class="brand-tag">🍰 Jessica Raiani Bolos</span>
+      <div class="brand-name">Domingo, 23 de agosto</div>
+      <h1>2º Festival<br>de <em>Fatias</em></h1>
+      <p class="sub">Monte seu pedido como em um app de delivery e finalize pelo WhatsApp. 💌</p>
       <img src="569889.webp" alt="Cardápio 2º Festival de Fatias" onerror="this.style.display='none'">
     </header>
 
-    <div class="top">
-      <h1>🍰 2º Festival de Fatias</h1>
-      <div class="sub">Monte seu pedido como em um app de delivery e finalize pelo WhatsApp.</div>
-    </div>
-
-    <!-- Informações do evento -->
+    <!-- INFO -->
     <div class="info">
       <div><b>📅 Domingo 23/08</b>Entregas a partir das 11:00</div>
       <div><b>💰 Cada fatia</b>R$ 18,00</div>
-      <div><b>🛵 Delivery</b>Taxa R$ 4,00</div>
-      <div><b>📍 Retirada</b>José Antônio de Andrade, 726, Jd. Beatriz</div>
+      <div><b>🛵 Delivery</b>Taxa de R$ 4,00</div>
+      <div><b>📍 Retirada</b>José Antônio de Andrade, 726 — Jd. Beatriz</div>
     </div>
 
-    <!-- Lista de sabores -->
+    <!-- SABORES -->
     <section>
-      <h2>🍰 Escolha suas fatias</h2>
+      <h2 class="section-title">Escolha suas fatias</h2>
 
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Pudim</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(0,-1)">−</button><strong id="q0">0</strong><button onclick="changeQty(0,1)">+</button></div>
-      </div>
-
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Matilda</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(1,-1)">−</button><strong id="q1">0</strong><button onclick="changeQty(1,1)">+</button></div>
-      </div>
-
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Ninho com abacaxi e doce de leite</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(2,-1)">−</button><strong id="q2">0</strong><button onclick="changeQty(2,1)">+</button></div>
-      </div>
-
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Palha italiana</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(3,-1)">−</button><strong id="q3">0</strong><button onclick="changeQty(3,1)">+</button></div>
-      </div>
-
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Ferrero Rocher</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(4,-1)">−</button><strong id="q4">0</strong><button onclick="changeQty(4,1)">+</button></div>
-      </div>
-
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Brigadeiro de Nutella com Ninho</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(5,-1)">−</button><strong id="q5">0</strong><button onclick="changeQty(5,1)">+</button></div>
-      </div>
-
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Ninho duplo com morango</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(6,-1)">−</button><strong id="q6">0</strong><button onclick="changeQty(6,1)">+</button></div>
-      </div>
-
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Floresta Negra</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(7,-1)">−</button><strong id="q7">0</strong><button onclick="changeQty(7,1)">+</button></div>
-      </div>
-
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Red Velvet</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(8,-1)">−</button><strong id="q8">0</strong><button onclick="changeQty(8,1)">+</button></div>
-      </div>
-
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Prestígio</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(9,-1)">−</button><strong id="q9">0</strong><button onclick="changeQty(9,1)">+</button></div>
-      </div>
-
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Olho de sogra</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(10,-1)">−</button><strong id="q10">0</strong><button onclick="changeQty(10,1)">+</button></div>
-      </div>
-
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Maracujá trufado</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(11,-1)">−</button><strong id="q11">0</strong><button onclick="changeQty(11,1)">+</button></div>
-      </div>
-
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Kit Kat</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(12,-1)">−</button><strong id="q12">0</strong><button onclick="changeQty(12,1)">+</button></div>
-      </div>
-
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Mousse de Ninho com geléia e doce de leite</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(13,-1)">−</button><strong id="q13">0</strong><button onclick="changeQty(13,1)">+</button></div>
-      </div>
-
-      <div class="flavor">
-        <div class="cake">🍰</div>
-        <div class="fi"><b>Kinder Bueno</b><small>R$ 18,00</small></div>
-        <div class="qty"><button onclick="changeQty(14,-1)">−</button><strong id="q14">0</strong><button onclick="changeQty(14,1)">+</button></div>
-      </div>
+      <div class="flavor" style="animation-delay:.02s"><div class="cake">🍮</div><div class="fi"><b>Pudim</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(0,-1)">−</button><strong id="q0">0</strong><button class="plus" onclick="changeQty(0,1)">+</button></div></div>
+      <div class="flavor" style="animation-delay:.04s"><div class="cake">🍫</div><div class="fi"><b>Matilda</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(1,-1)">−</button><strong id="q1">0</strong><button class="plus" onclick="changeQty(1,1)">+</button></div></div>
+      <div class="flavor" style="animation-delay:.06s"><div class="cake">🍍</div><div class="fi"><b>Ninho com abacaxi e doce de leite</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(2,-1)">−</button><strong id="q2">0</strong><button class="plus" onclick="changeQty(2,1)">+</button></div></div>
+      <div class="flavor" style="animation-delay:.08s"><div class="cake">🟤</div><div class="fi"><b>Palha italiana</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(3,-1)">−</button><strong id="q3">0</strong><button class="plus" onclick="changeQty(3,1)">+</button></div></div>
+      <div class="flavor" style="animation-delay:.10s"><div class="cake">🌰</div><div class="fi"><b>Ferrero Rocher</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(4,-1)">−</button><strong id="q4">0</strong><button class="plus" onclick="changeQty(4,1)">+</button></div></div>
+      <div class="flavor" style="animation-delay:.12s"><div class="cake">🍫</div><div class="fi"><b>Brigadeiro de Nutella com Ninho</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(5,-1)">−</button><strong id="q5">0</strong><button class="plus" onclick="changeQty(5,1)">+</button></div></div>
+      <div class="flavor" style="animation-delay:.14s"><div class="cake">🍓</div><div class="fi"><b>Ninho duplo com morango</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(6,-1)">−</button><strong id="q6">0</strong><button class="plus" onclick="changeQty(6,1)">+</button></div></div>
+      <div class="flavor" style="animation-delay:.16s"><div class="cake">🍒</div><div class="fi"><b>Floresta Negra</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(7,-1)">−</button><strong id="q7">0</strong><button class="plus" onclick="changeQty(7,1)">+</button></div></div>
+      <div class="flavor" style="animation-delay:.18s"><div class="cake">❤️</div><div class="fi"><b>Red Velvet</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(8,-1)">−</button><strong id="q8">0</strong><button class="plus" onclick="changeQty(8,1)">+</button></div></div>
+      <div class="flavor" style="animation-delay:.20s"><div class="cake">🥥</div><div class="fi"><b>Prestígio</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(9,-1)">−</button><strong id="q9">0</strong><button class="plus" onclick="changeQty(9,1)">+</button></div></div>
+      <div class="flavor" style="animation-delay:.22s"><div class="cake">🍬</div><div class="fi"><b>Olho de sogra</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(10,-1)">−</button><strong id="q10">0</strong><button class="plus" onclick="changeQty(10,1)">+</button></div></div>
+      <div class="flavor" style="animation-delay:.24s"><div class="cake">💛</div><div class="fi"><b>Maracujá trufado</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(11,-1)">−</button><strong id="q11">0</strong><button class="plus" onclick="changeQty(11,1)">+</button></div></div>
+      <div class="flavor" style="animation-delay:.26s"><div class="cake">🍫</div><div class="fi"><b>Kit Kat</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(12,-1)">−</button><strong id="q12">0</strong><button class="plus" onclick="changeQty(12,1)">+</button></div></div>
+      <div class="flavor" style="animation-delay:.28s"><div class="cake">🥛</div><div class="fi"><b>Mousse de Ninho com geléia e doce de leite</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(13,-1)">−</button><strong id="q13">0</strong><button class="plus" onclick="changeQty(13,1)">+</button></div></div>
+      <div class="flavor" style="animation-delay:.30s"><div class="cake">🍫</div><div class="fi"><b>Kinder Bueno</b><span class="price">R$ 18,00</span></div><div class="qty"><button onclick="changeQty(14,-1)">−</button><strong id="q14">0</strong><button class="plus" onclick="changeQty(14,1)">+</button></div></div>
     </section>
 
-    <!-- Dados do cliente -->
+    <!-- DADOS -->
     <section class="form">
-      <h2>📝 Seus dados</h2>
+      <h2 class="section-title">Seus dados</h2>
 
       <label>Nome</label>
       <input id="name" placeholder="Seu nome">
 
       <label>Telefone</label>
-      <input id="phone" placeholder="Seu telefone">
+      <input id="phone" inputmode="tel" placeholder="Seu telefone / WhatsApp">
 
       <label>Como vai receber?</label>
       <div class="choices">
-        <label><input type="radio" name="m" value="delivery" checked onchange="update()"> 🛵 Delivery + R$ 4,00</label>
+        <label><input type="radio" name="m" value="delivery" checked onchange="update()"> 🛵 Delivery +R$4</label>
         <label><input type="radio" name="m" value="pickup" onchange="update()"> 📍 Retirada</label>
       </div>
 
@@ -315,19 +296,19 @@
       </div>
 
       <label>Observações</label>
-      <textarea id="obs" placeholder="Opcional"></textarea>
+      <textarea id="obs" placeholder="Opcional — alguma preferência?"></textarea>
 
       <p class="note">⚠️ Somente delivery ou retirada. Não haverá atendimento presencial.</p>
     </section>
   </div>
 
-  <!-- Barra fixa com total -->
+  <!-- BARRA FIXA -->
   <div class="bottom">
-    <div class="total">
-      <span id="count">0</span> fatia(s)
+    <div class="total" id="totalWrap">
+      <span id="count">0</span> fatia(s) selecionada(s)
       <b id="total">R$ 0,00</b>
     </div>
-    <button class="send" onclick="sendOrder()">Finalizar pedido 💚</button>
+    <button class="send" onclick="sendOrder()">Finalizar 💚</button>
   </div>
 
   <script>
@@ -338,36 +319,25 @@
     const PICKUP_ADDRESS = "José Antônio de Andrade, 726, Jd. Beatriz";
 
     const FLAVORS = [
-      "Pudim",
-      "Matilda",
-      "Ninho com abacaxi e doce de leite",
-      "Palha italiana",
-      "Ferrero Rocher",
-      "Brigadeiro de Nutella com Ninho",
-      "Ninho duplo com morango",
-      "Floresta Negra",
-      "Red Velvet",
-      "Prestígio",
-      "Olho de sogra",
-      "Maracujá trufado",
-      "Kit Kat",
-      "Mousse de Ninho com geléia e doce de leite",
-      "Kinder Bueno",
+      "Pudim", "Matilda", "Ninho com abacaxi e doce de leite", "Palha italiana",
+      "Ferrero Rocher", "Brigadeiro de Nutella com Ninho", "Ninho duplo com morango",
+      "Floresta Negra", "Red Velvet", "Prestígio", "Olho de sogra", "Maracujá trufado",
+      "Kit Kat", "Mousse de Ninho com geléia e doce de leite", "Kinder Bueno",
     ];
 
-    // Quantidade escolhida de cada sabor (mesmo índice de FLAVORS)
     const qty = Array(FLAVORS.length).fill(0);
 
     // ===== Helpers =====
     const totalSlices = () => qty.reduce((a, b) => a + b, 0);
     const isDelivery = () => document.querySelector('input[name=m]:checked').value === "delivery";
-    const formatBRL = (value) =>
-      value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    const formatBRL = (v) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
     // ===== Interações =====
     function changeQty(i, delta) {
       qty[i] = Math.max(0, qty[i] + delta);
       document.getElementById("q" + i).textContent = qty[i];
+      // acende/apaga o card selecionado
+      document.getElementById("q" + i).closest(".flavor").classList.toggle("on", qty[i] > 0);
       update();
     }
 
@@ -378,15 +348,16 @@
       document.getElementById("count").textContent = count;
       document.getElementById("total").textContent = formatBRL(count * PRICE + fee);
       document.getElementById("addr").style.display = isDelivery() ? "block" : "none";
+
+      // micro-animação de "pulo" no total
+      const wrap = document.getElementById("totalWrap");
+      wrap.classList.remove("bump"); void wrap.offsetWidth; wrap.classList.add("bump");
     }
 
     // ===== Envio do pedido pelo WhatsApp =====
     function sendOrder() {
       const count = totalSlices();
-      if (!count) {
-        alert("Escolha pelo menos uma fatia.");
-        return;
-      }
+      if (!count) { alert("Escolha pelo menos uma fatia."); return; }
 
       const name = document.getElementById("name").value.trim();
       const phone = document.getElementById("phone").value.trim();
@@ -394,14 +365,8 @@
       const obs = document.getElementById("obs").value.trim();
       const delivery = isDelivery();
 
-      if (!name || !phone) {
-        alert("Preencha nome e telefone.");
-        return;
-      }
-      if (delivery && !addr) {
-        alert("Informe o endereço para entrega.");
-        return;
-      }
+      if (!name || !phone) { alert("Preencha nome e telefone."); return; }
+      if (delivery && !addr) { alert("Informe o endereço para entrega."); return; }
 
       const lines = qty
         .map((x, i) => (x ? `• ${FLAVORS[i]} — ${x} fatia(s)` : null))
